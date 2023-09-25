@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -b",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts vologda"
   },
   "dependencies": {
     "@npmcli/fs": "^3.1.0",
@@ -12,10 +12,7 @@
     "dotenv": "^16.0.2",
     "jsdom": "^20.0.0",
     "json-2-csv": "^4.0.0",
-    "mocha": "^10.0.0",
-    "puppeteer": "^17.1.3",
-    "puppeteer-extra": "^3.3.4",
-    "puppeteer-extra-plugin-stealth": "^2.11.1"
+    "mocha": "^10.0.0"
   },
   "devDependencies": {
     "@types/jsdom": "^20.0.0",

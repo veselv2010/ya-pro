@@ -3,7 +3,7 @@ import { ParkEntity } from "./models/ParkEntity";
 import * as jsdom from "jsdom";
 
 export class YaProScraper {
-  constructor(private readonly _city: string) {}
+  constructor(private readonly _city: string) { }
 
   async load(): Promise<ParkEntity[]> {
     const URL =
@@ -19,33 +19,39 @@ export class YaProScraper {
     const { document } = new JSDOM(data).window;
     const entries = this.getElements(document);
 
-    console.log("items: " + entries.length.toString());
+    console.log("Items: " + entries.length.toString());
 
     return entries.map((element) => {
-      const children = element.querySelectorAll("span")!;
 
-      console.log(children);
+      console.log(element);
 
       return {
         title: this.getTitle(element),
-        schedule: children.item(2).textContent ?? '',
-        phone: children.item(4).textContent ?? '',
-        address: children.item(6).textContent ?? '',
+        schedule: this.getSchedule(element),
+        phone: this.getPhone(element),
+        address: this.getAddress(element),
       };
     });
   }
 
-  private getTitle(elem: Element): string {
-    return (
-      elem
-        ?.querySelector(".accordion_titleWrapper__2ogdZ")
-        ?.querySelector("span")?.textContent ?? ""
-    );
+  private getTitle(elem: any) {
+    return elem.name;
   }
 
-  private getElements(document: Document): Element[] {
-    return Array.from(
-      document?.querySelectorAll(".accordion_accordion__7KkXQ") ?? []
-    );
+  private getPhone(elem: any) {
+    return elem.phone;
+  }
+
+  private getAddress(elem: any) {
+    return elem.address;
+  }
+
+  private getSchedule(elem: any) {
+    return elem.work_time;
+  }
+
+  private getElements(document: Document): Array<Object> {
+    return JSON.parse(document.querySelector("#__NEXT_DATA__")?.innerHTML ?? "")
+      .props.initialProps.pageProps.data.article.text_components[0].values.body
   }
 }
